@@ -1,14 +1,58 @@
 @import "~carbon-components/scss/globals/scss/typography";
 @import "~carbon-components/scss/globals/scss/spacing";
 
+.persistent-sidebar {
+    height: 100vh;
+    background-color: #ffffff;
+    // width: 48px;
+    width: 56px;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.filter-sidebar {
+    height: 100vh;
+    background-color: #ffffff;
+    width: 272px;
+    transition: margin-left 0.4s ease-in-out;
+    margin-left: -272px;
+    padding: 1rem;
+    padding-top: 2rem;
+}
+  
+.main {
+    display: flex;
+}
+    .main.show-sidebar .filter-sidebar {
+      margin-left: 0; 
+    }
+
+
 .results-page {
+    flex-grow: 1;
+    padding-top: 2rem; 
+
     background-color: $ui-03;
     padding-left: 40px;
     padding-right: 40px;
-    padding-top: 48px;
     padding-bottom: 48px;
+    height: 984px;
 }
 
-.filter{
-    width: 30vw;
+h4 {
+    @include type-style("body-short-01");
+    @include carbon--font-weight("semibold");
+}
+p {
+    @include type-style("body-short-01"); 
+}
+
+#filter {
+    // width: 10vw;
+    width: 240px;
+}
+
+.icon {
+    height: 24px;
+    width: 24px;  
 }

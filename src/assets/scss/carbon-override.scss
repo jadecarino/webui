@@ -91,7 +91,6 @@
   }
   .bx--tabs__nav-item--selected {
     background-color: #03429D;
-    color: $inverse-01; // not working
   }
 
   .bx--tabs__nav-link {
@@ -102,7 +101,6 @@
   }
   .bx--tabs__nav-link:selected {
     @include carbon--type-style("body-short-01");
-    color: $inverse-01; // not working
   }
 
   .bx--tabs:first-of-type { // not working
@@ -123,6 +121,33 @@
     border-bottom-right-radius: 4px;
   }
 
+  .bx--tabs__nav-item--selected .bx--tabs__nav-link  {
+    border-bottom: 0px, none;
+    color: $inverse-01;
+  }
+  .bx--tabs__nav-item--selected .bx--tabs__nav-link:focus {
+    border-bottom: 0px, none;
+    color: $inverse-01;
+  }
+  .bx--tabs__nav-item--selected .bx--tabs__nav-link:active {
+    border-bottom: 0px, none;
+    color: $inverse-01;
+  }
+
+  .bx--tabs__nav-item .bx--tabs__nav-link :first-of-type { 
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+  
+  .bx--tabs__nav-item .bx--tabs__nav-link:focus {
+    border-bottom: 0px, none;
+  }
+
+  .bx--tabs__nav-item .bx--tabs__nav-link:active {
+    border-bottom: 0px, none;
+    color: $inverse-01;
+  }
+
 
   // Loading icon
   .bx--loading {
@@ -141,6 +166,15 @@
   }
   .bx--toggle:checked {
     background-color: #03429D;
+  }
+
+  // Side navigation bar - Results and Run pages
+  a.bx--side-nav__link {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .bx--side-nav__items {
+    padding: 0px;
   }
   
 

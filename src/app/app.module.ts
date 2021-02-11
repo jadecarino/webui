@@ -49,6 +49,7 @@ import { RunDetailComponent } from './run-page/components/run-detail/run-detail.
 import { DateTimeComponent } from './date-time/date-time.component';
 import { TestResultComponent } from './run-page/components/run-detail/test-result/test-result.component';
 import { FooterComponent } from './footer/footer.component';
+import { ResultsSideNavigationComponent } from './results-side-navigation/results-side-navigation.component';
 
 @NgModule({
 	declarations: [
@@ -71,6 +72,7 @@ import { FooterComponent } from './footer/footer.component';
 		DateTimeComponent,
 		TestResultComponent,
 		FooterComponent,
+		ResultsSideNavigationComponent,
 	],
 	imports: [
 		BrowserModule,
