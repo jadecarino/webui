@@ -5,7 +5,7 @@
  */
 'use client';
 
-import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useRef, useMemo, useCallback, JSX } from 'react';
 import { Search, OverflowMenu, Button, InlineNotification } from '@carbon/react';
 import styles from '@/styles/test-runs/test-run-details/LogTab.module.css';
 import { Checkbox } from '@carbon/react';
@@ -536,7 +536,7 @@ export default function LogTab({ logs, initialLine, runId }: LogTabProps) {
         lineElement.scrollIntoView({ behavior: ANIMATION_BEHAVIOUR, block: 'start' });
       }
     }
-  }, [initialLine, processedLines]);
+  }, [ANIMATION_BEHAVIOUR, initialLine, processedLines]);
 
   // Scroll to current match
   useEffect(() => {
@@ -549,7 +549,7 @@ export default function LogTab({ logs, initialLine, runId }: LogTabProps) {
         });
       }
     }
-  }, [currentMatchIndex]);
+  }, [ANIMATION_BEHAVIOUR, currentMatchIndex]);
 
   useEffect(() => {
     const matchCount = searchMatches.length;

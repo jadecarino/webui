@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: EPL-2.0
  */
 
-import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import OverviewTab from '@/components/test-runs/test-run-details/OverviewTab';
@@ -219,7 +218,12 @@ const mockGetAWeekBeforeSubmittedTime = getAWeekBeforeSubmittedTime as jest.Mock
 
 describe('OverviewTab', () => {
   it('renders all top-level InlineText entries', () => {
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     // check each label/value pair
     [
@@ -240,7 +244,12 @@ describe('OverviewTab', () => {
   });
 
   it('renders the timing fields in the infoContainer', () => {
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     ['Submitted:', 'Started:', 'Finished:', 'Duration:'].forEach((label) => {
       expect(screen.getByText(label as string, { selector: 'p' })).toBeInTheDocument();
@@ -249,7 +258,12 @@ describe('OverviewTab', () => {
   });
 
   it('renders each tag when tags array is non-empty, sorted', () => {
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
     // header - use getByText since h5 contains nested elements
     expect(screen.getByText('Tags', { selector: 'h5' })).toBeInTheDocument();
 
@@ -261,7 +275,12 @@ describe('OverviewTab', () => {
 
   it('shows fallback text when tags is empty or missing', () => {
     const noTags: RunMetadata = { ...completeMetadata, tags: [] };
-    render(<OverviewTab metadata={noTags} />);
+    render(
+      <OverviewTab
+        metadata={noTags}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
     expect(screen.getByText('No tags were associated with this test run.')).toBeInTheDocument();
   });
 });
@@ -274,7 +293,12 @@ describe('OverviewTab - Time and Link Logic', () => {
   it('renders recent runs link with correct href', async () => {
     mockGetAWeekBeforeSubmittedTime.mockReturnValue('2025-06-03T09:00:00Z');
 
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     await screen.findAllByTestId('mock-link');
 
@@ -292,7 +316,12 @@ describe('OverviewTab - Time and Link Logic', () => {
 
     mockGetAWeekBeforeSubmittedTime.mockReturnValue(mockWeekBefore);
 
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     await screen.findAllByTestId('mock-link');
 
@@ -310,7 +339,12 @@ describe('OverviewTab - Time and Link Logic', () => {
   it('renders only recent runs link when weekBefore is invalid', async () => {
     mockGetAWeekBeforeSubmittedTime.mockReturnValue(null);
 
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     await new Promise((resolve) => setTimeout(resolve, 0));
 
@@ -329,7 +363,12 @@ describe('OverviewTab - Time and Link Logic', () => {
 
     mockGetAWeekBeforeSubmittedTime.mockReturnValue('2025-06-03T09:00:00Z');
 
-    render(<OverviewTab metadata={metadataWithRawSubmittedAt} />);
+    render(
+      <OverviewTab
+        metadata={metadataWithRawSubmittedAt}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     expect(mockGetAWeekBeforeSubmittedTime).toHaveBeenCalledWith('2025-06-10T09:00:00Z');
     expect(mockGetAWeekBeforeSubmittedTime).toHaveBeenCalledTimes(1);
@@ -343,7 +382,12 @@ describe('OverviewTab - Time and Link Logic', () => {
 
     mockGetAWeekBeforeSubmittedTime.mockReturnValue('Invalid date');
 
-    render(<OverviewTab metadata={metadataWithoutRawSubmittedAt} />);
+    render(
+      <OverviewTab
+        metadata={metadataWithoutRawSubmittedAt}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     expect(mockGetAWeekBeforeSubmittedTime).toHaveBeenCalledWith(undefined);
   });
@@ -353,7 +397,12 @@ describe('OverviewTab - Time and Link Logic', () => {
 
     mockGetAWeekBeforeSubmittedTime.mockReturnValue(mockWeekBefore);
 
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     await screen.findAllByTestId('mock-link');
 
@@ -366,7 +415,12 @@ describe('OverviewTab - Time and Link Logic', () => {
   it('updates weekBefore state correctly when time is invalid', async () => {
     mockGetAWeekBeforeSubmittedTime.mockReturnValue(null);
 
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     await new Promise((resolve) => setTimeout(resolve, 0));
 
@@ -378,7 +432,12 @@ describe('OverviewTab - Time and Link Logic', () => {
   });
 
   it('push link bread crumb when any of the links is clicked', () => {
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     const links = screen.getAllByTestId('mock-link');
     links.forEach((link) => {
@@ -405,7 +464,12 @@ describe('OverviewTab - Tags Edit Modal', () => {
 
   it('should open modal when edit icon is clicked', async () => {
     const user = userEvent.setup();
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     const editIcon = screen.getByTestId('edit-icon');
     await user.click(editIcon);
@@ -417,7 +481,12 @@ describe('OverviewTab - Tags Edit Modal', () => {
 
   it('should display RenderTags component with dismissible tags in modal', async () => {
     const user = userEvent.setup();
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     const editIcon = screen.getByTestId('edit-icon');
     await user.click(editIcon);
@@ -430,7 +499,12 @@ describe('OverviewTab - Tags Edit Modal', () => {
 
   it('should close modal when secondary button is clicked', async () => {
     const user = userEvent.setup();
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     const editIcon = screen.getByTestId('edit-icon');
     await user.click(editIcon);
@@ -449,7 +523,12 @@ describe('OverviewTab - Tags Edit Modal', () => {
 
   it('should handle tag removal in modal', async () => {
     const user = userEvent.setup();
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     const editIcon = screen.getByTestId('edit-icon');
     await user.click(editIcon);
@@ -478,7 +557,12 @@ describe('OverviewTab - Tags Edit Modal', () => {
     delete (window as any).location;
     (window as any).location = { reload: jest.fn() };
 
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     const editIcon = screen.getByTestId('edit-icon');
     await user.click(editIcon);
@@ -505,7 +589,12 @@ describe('OverviewTab - Tags Edit Modal', () => {
       error: 'Server Error',
     });
 
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     const editIcon = screen.getByTestId('edit-icon');
     await user.click(editIcon);
@@ -534,7 +623,12 @@ describe('OverviewTab - Tags Edit Modal', () => {
     delete (window as any).location;
     (window as any).location = { reload: jest.fn() };
 
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     const editIcon = screen.getByTestId('edit-icon');
     await user.click(editIcon);
@@ -554,7 +648,12 @@ describe('OverviewTab - Tags Edit Modal', () => {
 
   it('should reset staged tags when modal is closed without saving', async () => {
     const user = userEvent.setup();
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     const editIcon = screen.getByTestId('edit-icon');
     await user.click(editIcon);
@@ -592,7 +691,12 @@ describe('OverviewTab - Tags Edit Modal', () => {
 
   it('should display modal heading with run name', async () => {
     const user = userEvent.setup();
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     const editIcon = screen.getByTestId('edit-icon');
     await user.click(editIcon);
@@ -604,7 +708,12 @@ describe('OverviewTab - Tags Edit Modal', () => {
 
   it('should initialise staged tags from current tags when modal opens', async () => {
     const user = userEvent.setup();
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     const editIcon = screen.getByTestId('edit-icon');
     await user.click(editIcon);
@@ -618,7 +727,12 @@ describe('OverviewTab - Tags Edit Modal', () => {
 
   it('should display FilterableMultiSelect with sorted items alphabetically', async () => {
     const user = userEvent.setup();
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     const editIcon = screen.getByTestId('edit-icon');
     await user.click(editIcon);
@@ -634,7 +748,12 @@ describe('OverviewTab - Tags Edit Modal', () => {
 
   it('should maintain alphabetical sorting when adding new tags via filter input', async () => {
     const user = userEvent.setup();
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     const editIcon = screen.getByTestId('edit-icon');
     await user.click(editIcon);
@@ -655,7 +774,12 @@ describe('OverviewTab - Tags Edit Modal', () => {
 
   it('should keep selected items ticked in the dropdown', async () => {
     const user = userEvent.setup();
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     const editIcon = screen.getByTestId('edit-icon');
     await user.click(editIcon);
@@ -682,7 +806,12 @@ describe('OverviewTab - Tags Edit Modal', () => {
       ...completeMetadata,
       tags: ['smoke'],
     };
-    render(<OverviewTab metadata={metadataWithOneTag} />);
+    render(
+      <OverviewTab
+        metadata={metadataWithOneTag}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     const editIcon = screen.getByTestId('edit-icon');
     await user.click(editIcon);
@@ -709,7 +838,12 @@ describe('OverviewTab - Tags Edit Modal', () => {
 
   it('should clear filter input when modal is closed', async () => {
     const user = userEvent.setup();
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     const editIcon = screen.getByTestId('edit-icon');
     await user.click(editIcon);
@@ -747,7 +881,12 @@ describe('OverviewTab - Tags Edit Modal', () => {
       tags: ['smoke', 'regression', 'new-tag'],
     });
 
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     const editIcon = screen.getByTestId('edit-icon');
     await user.click(editIcon);
@@ -786,22 +925,37 @@ describe('OverviewTab - Tags Edit Modal', () => {
     );
   });
 
-  it('should fetch existing tags on component mount', async () => {
-    render(<OverviewTab metadata={completeMetadata} />);
+  it('should receive existing tags as props', async () => {
+    const existingTags = ['existing-tag-1', 'existing-tag-2'];
+    render(<OverviewTab metadata={completeMetadata} existingTagObjectNames={existingTags} />);
 
     // Wait for the component to render
     await waitFor(() => {
       expect(screen.getByText('Tags', { selector: 'h5' })).toBeInTheDocument();
     });
 
-    // The getExistingTagObjects should have been called
-    const { getExistingTagObjects } = require('@/actions/runsAction');
-    expect(getExistingTagObjects).toHaveBeenCalled();
+    // Open the modal to verify existing tags are available
+    const user = userEvent.setup();
+    const editIcon = screen.getByTestId('edit-icon');
+    await user.click(editIcon);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('mock-filterable-multiselect')).toBeInTheDocument();
+    });
+
+    // Verify that the existing tags passed as props are available in the dropdown
+    expect(screen.getByTestId('multiselect-item-existing-tag-1')).toBeInTheDocument();
+    expect(screen.getByTestId('multiselect-item-existing-tag-2')).toBeInTheDocument();
   });
 
   it('should include existing system tags in FilterableMultiSelect items', async () => {
     const user = userEvent.setup();
-    render(<OverviewTab metadata={completeMetadata} />);
+    render(
+      <OverviewTab
+        metadata={completeMetadata}
+        existingTagObjectNames={['existing-tag-1', 'existing-tag-2']}
+      />
+    );
 
     const editIcon = screen.getByTestId('edit-icon');
     await user.click(editIcon);
